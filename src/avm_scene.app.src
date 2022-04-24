@@ -1,5 +1,5 @@
 {application, avm_scene,
- [{description, "An OTP application"},
+ [{description, "Scene library for AtomVM."},
   {vsn, "0.1.0"},
   {registered, []},
   {mod, {avm_scene_app, []}},
@@ -11,5 +11,5 @@
   {modules, []},
 
   {licenses, ["Apache 2.0"]},
-  {links, []}
+  {links, [{"GitHub", "https://github.com/atomvm/avm_scene"}]}
  ]}.

@@ -2,7 +2,6 @@
  [{description, "Scene library for AtomVM."},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, {avm_scene_app, []}},
   {applications,
    [kernel,
     stdlib

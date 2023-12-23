@@ -33,7 +33,9 @@
     handle_info/2
 ]).
 
--record(state, {module = undefined, display = undefined, scene_state = undefined}).
+-record(state, {
+    module = undefined, display_module = undefined, display = undefined, scene_state = undefined
+}).
 
 start_link(Module, Args, Options) ->
     NoDisplayOptions = lists:keydelete(display_server, 1, Options),
@@ -43,11 +45,16 @@ start_link(Module, Args, Options) ->
 init([{Module, Options} | Args]) ->
     DisplayServer = proplists:get_value(display_server, Options),
     case DisplayServer of
-        Display when is_pid(Display) ->
+        {DisplayModule, Display} when is_atom(DisplayModule) ->
             InputServer = proplists:get_value(input_server, Options),
             maybe_subscribe_input(InputServer),
             {ok, SceneState} = Module:init(Args),
-            {ok, #state{module = Module, display = Display, scene_state = SceneState}};
+            {ok, #state{
+                module = Module,
+                display_module = DisplayModule,
+                display = Display,
+                scene_state = SceneState
+            }};
         _Invalid ->
             {stop, {error, invalid_display}}
     end.
@@ -84,10 +91,12 @@ handle_info(Msg, State) ->
 maybe_update_scene(Result, State) ->
     case Result of
         {Action, Reply, NewSceneState, [{push, Scene}]} ->
-            gen_server:call(State#state.display, {update, Scene}),
+            DisplayModule = State#state.display_module,
+            DisplayModule:call(State#state.display, {update, Scene}),
             {Action, Reply, State#state{scene_state = NewSceneState}};
         {Action, NewSceneState, [{push, Scene}]} ->
-            gen_server:call(State#state.display, {update, Scene}),
+            DisplayModule = State#state.display_module,
+            DisplayModule:call(State#state.display, {update, Scene}),
             {Action, State#state{scene_state = NewSceneState}};
         {Action, Reply, NewSceneState} ->
             {Action, Reply, State#state{scene_state = NewSceneState}};

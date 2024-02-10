@@ -1,9 +1,17 @@
-avm_scene
-=====
+# avm_scene
 
-An OTP application
+avm_scene adds graphical capabilities on top of `gen_server`, such as pushing graphical updates on
+`handle_info` or `handle_call`.
 
-Build
------
+```elixir
+  [...]
 
-    $ rebar3 compile
+  def handle_info(:show_hello, state) do
+    # grapical items
+    items = [...]
+
+    {:noreply, state, [{:push, items}]}
+  end
+
+  [...]
+```

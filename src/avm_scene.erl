@@ -23,7 +23,9 @@
 -behavior(gen_server).
 
 -export([
-    start_link/3
+    start/3,
+    start_link/3,
+    start_monitor/3
 ]).
 
 -export([
@@ -37,10 +39,20 @@
     module = undefined, display_module = undefined, display = undefined, scene_state = undefined
 }).
 
+start(Module, Args, Options) ->
+    NoDisplayOptions = lists:keydelete(display_server, 1, Options),
+    GenServerOptions = lists:keydelete(input_server, 1, NoDisplayOptions),
+    gen_server:start(?MODULE, [{Module, Options} | Args], GenServerOptions).
+
 start_link(Module, Args, Options) ->
     NoDisplayOptions = lists:keydelete(display_server, 1, Options),
     GenServerOptions = lists:keydelete(input_server, 1, NoDisplayOptions),
     gen_server:start_link(?MODULE, [{Module, Options} | Args], GenServerOptions).
+
+start_monitor(Module, Args, Options) ->
+    NoDisplayOptions = lists:keydelete(display_server, 1, Options),
+    GenServerOptions = lists:keydelete(input_server, 1, NoDisplayOptions),
+    gen_server:start_monitor(?MODULE, [{Module, Options} | Args], GenServerOptions).
 
 init([{Module, Options} | Args]) ->
     DisplayServer = proplists:get_value(display_server, Options),

@@ -1,14 +1,22 @@
-{application, avm_scene,
- [{description, "Scene library for AtomVM."},
-  {vsn, "0.1.0"},
-  {registered, []},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
-
-  {licenses, ["Apache 2.0"]},
-  {links, [{"GitHub", "https://github.com/atomvm/avm_scene"}]}
- ]}.
+{application, avm_scene, [
+    {description,
+        "A GenServer wrapper that adds graphical display capabilities for AtomVM, providing declarative display updates and input handling for embedded graphics applications."},
+    {vsn, "0.1.0"},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
+    {env, []},
+    {modules, [avm_scene]},
+    {maintainers, ["Davide Bettio"]},
+    {licenses, ["Apache-2.0"]},
+    {links, [
+        {"GitHub", "https://github.com/atomvm/avm_scene"},
+        {"AtomGL", "https://github.com/atomvm/atomgl"},
+        {"AtomVM", "https://atomvm.org/"},
+        {"AtomVM Documentation", "https://doc.atomvm.org/"}
+    ]},
+    {files, ["src", "README.md", "LICENSE"]},
+    {build_tools, ["rebar3", "mix"]}
+]}.

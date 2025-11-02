@@ -1,7 +1,7 @@
 {application, avm_scene, [
     {description,
         "A GenServer wrapper that adds graphical display capabilities for AtomVM, providing declarative display updates and input handling for embedded graphics applications."},
-    {vsn, "0.1.0"},
+    {vsn, "0.2.0"},
     {registered, []},
     {applications, [
         kernel,
